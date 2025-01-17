@@ -8,23 +8,41 @@ class Field:
         return str(self.value)
 
 class Name(Field):
-    pass
+    def __init__(self, name):
+        self.value = name   
 
 class Phone(Field):
-    pass
+    def __init__(self, phone):
+        if phone.isdigit() and len(phone) == 10:
+            self.value = phone
+        else:
+            raise ValueError("Invalid phone number")
 
 class Record:
     def __init__(self, name):
         self.name = Name(name)
         self.phones = []
 
-    # реалізація класу
+    def add_phone(self, phone):
+        self.phones.append(Phone(phone))
+
+    def edit_phone(self, old, new):
+        self.phones.remove(Phone(old))
+        self.phones.append(Phone(new))
+
+    def remove_phone(self, rm):
+        self.phones.remove(Phone(rm))
+
+    def find_phone(self, ph):
+        return Phone(ph) if Phone(ph) in self.phones else None
 
     def __str__(self):
         return f"Contact name: {self.name.value}, phones: {'; '.join(p.value for p in self.phones)}"
-
+    
 class AddressBook(UserDict):
-    pass
+    def __init__(self):
+        self.data = []
+    
 
 
 def main():
